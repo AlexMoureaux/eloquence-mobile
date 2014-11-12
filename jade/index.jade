@@ -4,20 +4,25 @@ head
     meta(charset='utf-8')
     meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width')
     title
-    //
-       compiled css output 
+    //compiled css output 
     link(href='css/ionic.app.css', rel='stylesheet')
-    //
-       ionic/angularjs js 
+    //ionic/angularjs js 
     script(src='lib/ionic/js/ionic.bundle.js')
-    //
-       cordova script (this will be a 404 during development) 
+    //cordova script (this will be a 404 during development) 
     script(src='cordova.js')
-    //
-       your app's js 
+    //your app's js 
     script(src='js/app.js')
-  body(ng-app='starter')
+    script(src='js/controllers.js')
+    script(src='js/services.js')
+  body(ng-app='eloquence')
     ion-pane
       ion-header-bar.bar-stable
-        h1.title Eloquence wdww
-      ion-content
+        h1.title Eloquence
+
+
+
+      ion-content(ng-controller='SentenceCtrl')
+        label.item.item-input
+          textarea(placeholder="Enter sentence", ng-model="sentenceInput")
+        button.button.button-positive.button-full(on-touch="callSentenceAPI()") Go
+        {{sentenceTransformed}}

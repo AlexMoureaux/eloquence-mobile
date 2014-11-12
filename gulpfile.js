@@ -29,7 +29,7 @@ gulp.task('sass', function(done) {
 
 gulp.task('jade', function (done) {
     gulp.src(paths.jade)
-      .pipe(jade())
+      .pipe(jade({pretty: true}))
       .pipe(gulp.dest('./www/'))
       .on('end', done);
 });
