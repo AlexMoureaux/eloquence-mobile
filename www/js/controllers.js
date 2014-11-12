@@ -135,7 +135,6 @@ angular.module('eloquence.controllers', [])
 	}
 
 	$scope.callSentenceAPI = function(){
-		$scope.sentenceTransformed = "Bwahaahahahha";
 		if($scope.sentenceInput)
 			APIService.callUrl('/sentence/' + $scope.sentenceInput).then(function(data) {
 			    	$scope.sentenceTransformed = onDataReceived(data);
