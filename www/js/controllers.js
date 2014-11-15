@@ -4,8 +4,16 @@ angular.module('eloquence.controllers', [])
 
 .controller('SentenceCtrl', function($scope, APIService) {
 
+	$scope.filters = {
+		complexity : 0,
+		length : 0,
+		informal : false,
+		common : false
+	};
+
 	var synData = {};
 	var sentence;
+	var parseData = {};
 
 	var parserTypeToThesaurus = {
 		"NNP": "",
@@ -18,6 +26,15 @@ angular.module('eloquence.controllers', [])
 		"PRP": "pron",
 		"MD": "verb"
 	};
+
+	function clone(obj) {
+	    if (null == obj || "object" != typeof obj) return obj;
+	    var copy = obj.constructor();
+	    for (var attr in obj) {
+	        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+	    }
+	    return copy;
+	}
 
 	function getObjectFirstValue(obj){
 		for(var key in obj)
@@ -47,24 +64,19 @@ angular.module('eloquence.controllers', [])
 		return selectedType[best];
 	}
 
-	function onDataReceived(data){
-		synData = data['synonyms-data'];
-		var parseData = data['parse-data'];
+	var isSecondPass = true;
+	var newSentence;
 
-		console.log(synData);
-		console.log(parseData);
+	$scope.getSentenceTransformed = function(){
 
+		if(!sentence || sentence !== $scope.sentenceInput) return;
+		isSecondPass = !isSecondPass;
+		if(isSecondPass) return newSentence;
+		console.log("wouuuuu");
 		var newWords = [];
-		var oldWords = $scope.sentenceInput.split(" ");
+		var oldWords = sentence.split(" ");
 
-		var filters = {
-			complexity: {
-				min: 3
-			},
-			length: {
-				min: 3
-			}
-		};
+		var filters = $scope.filters;
 
 		oldWords.forEach(function(word){
 			var newWord = word;
@@ -73,12 +85,18 @@ angular.module('eloquence.controllers', [])
 				if(type && synData[word].hasOwnProperty(type))
 					newWord = getNewWord(synData[word][type], filters);
 				else
-					console.error("Parser type: " + parseData[word], "Thesaurus data: " + synData[word]);
+					console.error("Parser type: " + parseData[word], word);
 			}
 			newWords.push(newWord);
 		});
 
-		return newWords.join(" ");
+		newSentence = newWords.join(" ");
+		return newSentence;
+	}
+
+	function onDataReceived(data){
+		synData = data['synonyms-data'];
+		parseData = data['parse-data'];
 	}
 
 	function getNewWord(synonyms, filters){
@@ -88,26 +106,25 @@ angular.module('eloquence.controllers', [])
 		return selectedWord["text"];
 	}
 
-	var RANGES_ATTRIBUTES = ["complexity", "relevancy", "length"];
+	var RANGE_ATTRIBUTES = ["complexity", "relevancy", "length"];
 	var BOOLEAN_ATTRIBUTES = ["common", "informal"];
 
 	function getWordScore(word, filters){
 		var score = 0;
-		RANGES_ATTRIBUTES.forEach(function(attr){
+		RANGE_ATTRIBUTES.forEach(function(attr){
 			if(filters.hasOwnProperty(attr)){
-				if(word[attr] > filters[attr].max) score += word[attr] - filters[attr].max;
-				if(word[attr] < filters[attr].min) score += filters[attr].min - word[attr];
+				score += Math.abs(word[attr] - filters[attr]);
+				/*if(word[attr] > filters[attr].max) score += word[attr] - filters[attr].max;
+				if(word[attr] < filters[attr].min) score += filters[attr].min - word[attr];*/
 			}
 		});
 
 		BOOLEAN_ATTRIBUTES.forEach(function(attr){
 			if(filters.hasOwnProperty(attr)){
-				console.log(word[attr] !== filters.attr, word[attr], filters[attr]);
 				if(word[attr] !== filters[attr]) score += 2;
 			}
 		});
 
-		//console.log(word, score, filters);
 		return score;
 	}
 
@@ -135,11 +152,13 @@ angular.module('eloquence.controllers', [])
 	}
 
 	$scope.callSentenceAPI = function(){
-		if($scope.sentenceInput)
-			APIService.callUrl('/sentence/' + $scope.sentenceInput).then(function(data) {
-			    	$scope.sentenceTransformed = onDataReceived(data);
+		var sentencePassedToAPI = $scope.sentenceInput;
+		if(sentencePassedToAPI)
+			APIService.callUrl('/sentence/' + sentencePassedToAPI).then(function(data) {
+					sentence = sentencePassedToAPI;
+			    	onDataReceived(data);
 			  	}, function(err) {
-			  		$scope.sentenceTransformed = "Sorry, I can't connect to the internet...";
+			  		//$scope.sentenceTransformed = "Sorry, I can't connect to the internet...";
 		  	});
 	}
 });

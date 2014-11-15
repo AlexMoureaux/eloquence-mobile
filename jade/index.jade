@@ -21,8 +21,30 @@ head
 
 
 
-      ion-content(ng-controller='SentenceCtrl')
+      ion-content(ng-controller='SentenceCtrl', has-header="true" padding="true")
         label.item.item-input
           textarea(placeholder="Enter sentence", ng-model="sentenceInput")
         button.button.button-positive.button-full(on-touch="callSentenceAPI()") Go
-        {{sentenceTransformed}}
+        p.sentence {{getSentenceTransformed()}}
+
+        .list
+            .item.item-divider Parameters
+            .item.range
+                span Complexity
+                input(type="range",min="0",max="3",ng-model="filters.complexity")
+            .item.range
+                span Length
+                input(type="range",min="0",max="3",ng-model="filters.length")
+            .item.item-toggle
+                span Informal
+                label.toggle
+                    input(type='checkbox', ng-model="filters.informal")
+                    .track
+                        .handle
+            .item.item-toggle
+                span Common
+                label.toggle
+                    input(type='checkbox', ng-model="filters.common")
+                    .track
+                        .handle
+

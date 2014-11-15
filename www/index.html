@@ -20,11 +20,37 @@
     <ion-header-bar class="bar-stable">
       <h1 class="title">Eloquence</h1>
     </ion-header-bar>
-    <ion-content ng-controller="SentenceCtrl">
+    <ion-content ng-controller="SentenceCtrl" has-header="true" padding="true">
       <label class="item item-input">
         <textarea placeholder="Enter sentence" ng-model="sentenceInput"></textarea>
       </label>
-      <button on-touch="callSentenceAPI()" class="button button-positive button-full">Go</button>{{sentenceTransformed}}
+      <button on-touch="callSentenceAPI()" class="button button-positive button-full">Go</button>
+      <p class="sentence">{{getSentenceTransformed()}}</p>
+      <div class="list">
+        <div class="item item-divider">Parameters</div>
+        <div class="item range"><span>Complexity</span>
+          <input type="range" min="0" max="3" ng-model="filters.complexity">
+        </div>
+        <div class="item range"><span>Length</span>
+          <input type="range" min="0" max="3" ng-model="filters.length">
+        </div>
+        <div class="item item-toggle"><span>Informal</span>
+          <label class="toggle">
+            <input type="checkbox" ng-model="filters.informal">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </div>
+        <div class="item item-toggle"><span>Common</span>
+          <label class="toggle">
+            <input type="checkbox" ng-model="filters.common">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </div>
+      </div>
     </ion-content>
   </ion-pane>
 </body>

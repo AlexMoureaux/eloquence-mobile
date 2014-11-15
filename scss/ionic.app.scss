@@ -21,3 +21,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.item.range span{
+	width: 100px;
+}
+
+.sentence{
+	text-align: center;
+	font-size: 30px;
+	min-height: 30px;
+}
+
