@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.eloquencemobile662432" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>eloquence-mobile</name>
+<widget id="com.almouro.eloquencemobile" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Eloquence</name>
   <description>
         An Ionic Framework and Cordova project.
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="contact@almouro.com" href="http://almouro.com/">
+      Almouro
     </author>
   <content src="index.html"/>
   <access origin="*"/>
@@ -16,4 +16,13 @@
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
+
+  <platform name="android">
+    <icon src="icons/android/drawable-mdpi/ic_launcher.png" width="48" height="48" />
+    <icon src="icons/android/drawable-hdpi/ic_launcher.png" width="72" height="72" />
+    <icon src="icons/android/drawable-xhdpi/ic_launcher.png" width="96" height="96" />
+    <icon src="icons/android/drawable-xxhdpi/ic_launcher.png" width="144" height="144" />
+    <icon src="icons/android/drawable-xxxhdpi/ic_launcher.png" width="192" height="192" />
+  </platform>
 </widget>
+
