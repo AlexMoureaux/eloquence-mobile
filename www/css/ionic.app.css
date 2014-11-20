@@ -7818,7 +7818,13 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
 .item.range span {
   width: 100px; }
 
+input.sentence-input {
+  font-size: 30px;
+  line-height: 30px; }
+
 .sentence {
   text-align: center;
   font-size: 30px;
-  min-height: 30px; }
+  min-height: 30px;
+  line-height: 30px;
+  height: auto; }

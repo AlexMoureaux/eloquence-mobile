@@ -12,6 +12,7 @@
   <script src="cordova.js"></script>
   <!--your app's js -->
   <script src="js/app.js"></script>
+  <script src="js/utils.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/services.js"></script>
 </head>
@@ -22,7 +23,7 @@
     </ion-header-bar>
     <ion-content ng-controller="SentenceCtrl" has-header="true" padding="true">
       <label class="item item-input">
-        <textarea placeholder="Enter sentence" ng-model="sentenceInput"></textarea>
+        <input placeholder="Enter sentence" ng-model="sentenceInput" type="text" class="sentence-input">
       </label>
       <button on-touch="callSentenceAPI()" class="button button-positive button-full">Go</button>
       <p class="sentence">{{getSentenceTransformed()}}</p>

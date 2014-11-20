@@ -2,7 +2,7 @@
 
 angular.module('eloquence.controllers', [])
 
-.controller('SentenceCtrl', function($scope, APIService) {
+.controller('SentenceCtrl', function($scope, $APIService, $StorageService) {
 
 	$scope.filters = {
 		complexity : 0,
@@ -68,11 +68,13 @@ angular.module('eloquence.controllers', [])
 	var newSentence;
 
 	$scope.getSentenceTransformed = function(){
-
-		if(!sentence || sentence !== $scope.sentenceInput) return;
+		console.log('getSentenceTransformed called');
+		if(!sentence || sentence.toLowerCase() !== $scope.sentenceInput.toLowerCase()) return;
 		isSecondPass = !isSecondPass;
 		if(isSecondPass) return newSentence;
-		console.log("wouuuuu");
+
+		console.log('getSentenceTransformed running');
+
 		var newWords = [];
 		var oldWords = sentence.split(" ");
 
@@ -95,8 +97,13 @@ angular.module('eloquence.controllers', [])
 	}
 
 	function onDataReceived(data){
-		synData = data['synonyms-data'];
 		parseData = data['parse-data'];
+
+		for(var word in data['synonyms-data']){
+			var wordData = data['synonyms-data'][word];
+			synData[word] = wordData;
+			$StorageService.setWordData(word, wordData);
+		}
 	}
 
 	function getNewWord(synonyms, filters){
@@ -151,14 +158,41 @@ angular.module('eloquence.controllers', [])
 		return words[randInt(words.length)];
 	}
 
+	function getWordsFromSentence(sentence){
+		return sentence.match(/[,.!?;:]|\b[a-z']+\b/ig);
+	}
+
 	$scope.callSentenceAPI = function(){
 		var sentencePassedToAPI = $scope.sentenceInput;
-		if(sentencePassedToAPI)
-			APIService.callUrl('/sentence/' + sentencePassedToAPI).then(function(data) {
-					sentence = sentencePassedToAPI;
-			    	onDataReceived(data);
-			  	}, function(err) {
-			  		//$scope.sentenceTransformed = "Sorry, I can't connect to the internet...";
-		  	});
+		if(!sentencePassedToAPI) return;
+
+		sentencePassedToAPI = sentencePassedToAPI.toLowerCase();
+		var words = getWordsFromSentence(sentencePassedToAPI);
+
+		words = words.filter(function(word){
+			console.log(word, synData.hasOwnProperty(word), $StorageService.getWordData(word))
+
+			if(synData.hasOwnProperty(word)) return false;
+			var storedData = $StorageService.getWordData(word);
+			if(storedData){
+				synData[word] = storedData;
+				return false;
+			}
+			return true;
+		});
+
+		var jsonParams = {
+			sentence: sentencePassedToAPI,
+			words: words
+		};
+
+		console.log(jsonParams);
+
+		$APIService.callUrl('/sentence/' + JSON.stringify(jsonParams)).then(function(data) {
+				sentence = sentencePassedToAPI;
+		    	onDataReceived(data);
+		  	}, function(err) {
+		  		//error
+	  	});
 	}
 });

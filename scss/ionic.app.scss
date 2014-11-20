@@ -25,9 +25,17 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	width: 100px;
 }
 
+input.sentence-input{
+	font-size: 30px;
+	line-height: 30px;
+	//min-height: 50px;
+}
+
 .sentence{
 	text-align: center;
 	font-size: 30px;
 	min-height: 30px;
+	line-height: 30px;
+	height: auto;
 }
 

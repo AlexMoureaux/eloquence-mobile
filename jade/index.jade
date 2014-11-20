@@ -12,6 +12,7 @@ head
     script(src='cordova.js')
     //your app's js 
     script(src='js/app.js')
+    script(src='js/utils.js')
     script(src='js/controllers.js')
     script(src='js/services.js')
   body(ng-app='eloquence')
@@ -23,7 +24,7 @@ head
 
       ion-content(ng-controller='SentenceCtrl', has-header="true" padding="true")
         label.item.item-input
-          textarea(placeholder="Enter sentence", ng-model="sentenceInput")
+          input.sentence-input(placeholder="Enter sentence", ng-model="sentenceInput", type="text")
         button.button.button-positive.button-full(on-touch="callSentenceAPI()") Go
         p.sentence {{getSentenceTransformed()}}
 
