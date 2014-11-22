@@ -15,6 +15,7 @@ head
     script(src='js/utils.js')
     script(src='js/controllers.js')
     script(src='js/services.js')
+        
   body(ng-app='eloquence')
     ion-pane
       ion-header-bar.bar-stable
@@ -24,7 +25,7 @@ head
 
       ion-content(ng-controller='SentenceCtrl', has-header="true" padding="true")
         label.item.item-input
-          input.sentence-input(placeholder="Enter sentence", ng-model="sentenceInput", type="text")
+          textarea.sentence-input(placeholder="Enter sentence", ng-model="sentenceInput", type="text")
         button.button.button-positive.button-full(on-touch="callSentenceAPI()") Go
         p.sentence {{getSentenceTransformed()}}
 

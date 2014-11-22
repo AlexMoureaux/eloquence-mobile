@@ -25,7 +25,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	width: 100px;
 }
 
-input.sentence-input{
+textarea.sentence-input{
 	font-size: 30px;
 	line-height: 30px;
 	//min-height: 50px;
@@ -34,7 +34,7 @@ input.sentence-input{
 .sentence{
 	text-align: center;
 	font-size: 30px;
-	min-height: 30px;
+	min-height: 60px;
 	line-height: 30px;
 	height: auto;
 }
