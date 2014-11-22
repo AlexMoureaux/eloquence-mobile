@@ -210,7 +210,7 @@ angular.module('eloquence.services', ['eloquence.utils'])
 
   this.getSentenceTransformed = function(sentence, filters){
     var newWords = [];
-    var oldWords = sentence.split(" ");
+    var oldWords = $jsUtils.getWordsFromSentence(sentence);
 
     oldWords.forEach(function(word){
       var newWord = word;
