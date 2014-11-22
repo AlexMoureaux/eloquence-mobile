@@ -6,11 +6,11 @@ angular.module('eloquence.services', ['eloquence.utils'])
   var BACKEND_URL = window.cordova ?'https://mysterious-reaches-6529.herokuapp.com' : 'http://localhost:5000';
 
   function showNotConnectedAlert() {
-    var alertPopup = $ionicPopup.alert({
+    $ionicPopup.alert({
       title: 'Sorry!',
       template: "I can't connect to the internet..."
     });
-  };
+  }
 
   this.callUrl = function(url){
     $ionicLoading.show({
@@ -32,7 +32,7 @@ angular.module('eloquence.services', ['eloquence.utils'])
       showNotConnectedAlert();
       return $q.reject(response.data);
     });
-  }
+  };
 
 })
 
@@ -112,7 +112,7 @@ angular.module('eloquence.services', ['eloquence.utils'])
     var selectedMeaning = getBestMeaningForType(synonyms);
     var possibleWords = getPossibleWords(selectedMeaning, filters);
     var selectedWord = selectWord(possibleWords);
-    return selectedWord["text"];
+    return selectedWord['text'];
   }
 
   function getWordScore(word, filters){
@@ -145,7 +145,7 @@ angular.module('eloquence.services', ['eloquence.utils'])
         selected = [word];
         score = wordScore;
       }
-      else if(wordScore == score){
+      else if(wordScore === score){
         selected.push(word);
       }
     });

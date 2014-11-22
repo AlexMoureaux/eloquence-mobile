@@ -18,4 +18,4 @@ angular.module('eloquence', ['ionic', 'eloquence.utils', 'eloquence.controllers'
       StatusBar.styleDefault();
     }
   });
-})
+});

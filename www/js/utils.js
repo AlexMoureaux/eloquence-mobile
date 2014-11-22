@@ -15,7 +15,7 @@ angular.module('eloquence.utils', [])
       var obj = $window.localStorage[key];
       return obj ? JSON.parse(obj) : undefined;
     }
-  }
+  };
 }])
 
 .service('$jsUtils', function(){
@@ -45,9 +45,9 @@ angular.module('eloquence.utils', [])
 
   this.getWordsFromSentence = function(sentence){
     return sentence.match(/[,.!?;:]|\b[a-z']+\b/ig);
-  }
+  };
 
   this.isStringAWord = function(str){
     return str.match(/[a-z]/i);
-  }
+  };
 });
