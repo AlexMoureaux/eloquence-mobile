@@ -55,56 +55,56 @@ angular.module('eloquence.services', ['eloquence.utils'])
 .service('$SentenceService', function($jsUtils, $StorageService, $APIService){
   var synonymsData = {};
   var PARSER_TYPES_TO_THESAURUS = {
-    "Tag": "",
-    "$": "",
-    "``": "",
-    "''": "",
-    "(": "",
-    ")": "",
-    ",": "",
-    "--": "",
-    ".": "",
-    ":": "",
-    "CC": "",
-    "CD": "",
-    "DT": "",
-    "EX": "",
-    "FW": "",
-    "IN": "",
-    "JJ": "adj",
-    "JJR": "adj",
-    "JJS": "adj",
-    "LS": "",
-    "MD": "",
-    "NN": "noun",
-    "NNP": "noun",
-    "NNPS": "noun",
-    "NNS": "noun",
-    "PDT": "",
-    "POS": "",
-    "PRP": "pron",
-    "PRP$": "pron",
-    "RB": "adv",
-    "RBR": "adv",
-    "RBS": "adv",
-    "RP": "",
-    "SYM": "",
-    "TO": "",
-    "UH": "",
-    "VB": "verb",
-    "VBD": "verb",
-    "VBG": "verb",
-    "VBN": "verb",
-    "VBP": "verb",
-    "VBZ": "verb",
-    "WDT": "",
-    "WP": "pron",
-    "WP$": "pron",
-    "WRB": "adv"
+    'Tag': '',
+    '$': '',
+    '``': '',
+    "''": '',
+    '(': '',
+    ')': '',
+    ',': '',
+    '--': '',
+    '.': '',
+    ':': '',
+    'CC': '',
+    'CD': '',
+    'DT': '',
+    'EX': '',
+    'FW': '',
+    'IN': '',
+    'JJ': 'adj',
+    'JJR': 'adj',
+    'JJS': 'adj',
+    'LS': '',
+    'MD': '',
+    'NN': 'noun',
+    'NNP': 'noun',
+    'NNPS': 'noun',
+    'NNS': 'noun',
+    'PDT': '',
+    'POS': '',
+    'PRP': 'pron',
+    'PRP$': 'pron',
+    'RB': 'adv',
+    'RBR': 'adv',
+    'RBS': 'adv',
+    'RP': '',
+    'SYM': '',
+    'TO': '',
+    'UH': '',
+    'VB': 'verb',
+    'VBD': 'verb',
+    'VBG': 'verb',
+    'VBN': 'verb',
+    'VBP': 'verb',
+    'VBZ': 'verb',
+    'WDT': '',
+    'WP': 'pron',
+    'WP$': 'pron',
+    'WRB': 'adv'
   };
 
-  var RANGE_ATTRIBUTES = ["complexity", "relevancy", "length"];
-  var BOOLEAN_ATTRIBUTES = ["common", "informal"];
+  var RANGE_ATTRIBUTES = ['complexity', 'relevancy', 'length'];
+  var BOOLEAN_ATTRIBUTES = ['common', 'informal'];
 
   var currentParseData = {};
 
@@ -157,11 +157,13 @@ angular.module('eloquence.services', ['eloquence.utils'])
     var max = -1;
     var best;
     for(var meaning in selectedType){
-      var curMax = selectedType[meaning].length;
-      if(curMax > max){
-        best = meaning;
-        max = curMax;
-      }
+      if(selectedType.hasOwnProperty(meaning)){
+        var curMax = selectedType[meaning].length;
+        if(curMax > max){
+          best = meaning;
+          max = curMax;
+        }
+      }    
     }
     return selectedType[best];
   }
@@ -174,9 +176,11 @@ angular.module('eloquence.services', ['eloquence.utils'])
     currentParseData = data['parse-data'];
 
     for(var word in data['synonyms-data']){
-      var wordData = data['synonyms-data'][word];
-      synonymsData[word] = wordData;
-      $StorageService.setWordData(word, wordData);
+      if(data['synonyms-data'].hasOwnProperty(word)){
+        var wordData = data['synonyms-data'][word];
+        synonymsData[word] = wordData;
+        $StorageService.setWordData(word, wordData);
+      }
     }
   }
 
@@ -219,7 +223,7 @@ angular.module('eloquence.services', ['eloquence.utils'])
         if(type && synonymsData[word].hasOwnProperty(type))
           newWord = getNewWord(synonymsData[word][type], filters);
         else
-          console.error("Parser type: " + currentParseData[word], word);
+          console.error('Parser type: ' + currentParseData[word], word);
       }
       newWords.push(newWord);
     });

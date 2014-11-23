@@ -34,8 +34,9 @@ angular.module('eloquence.utils', [])
   };*/
 
   this.isEmpty = function (object) { 
-    for(var i in object) 
-      return false; 
+    for(var key in object)
+      if(object.hasOwnProperty(key))
+        return false; 
     return true; 
   };
 
