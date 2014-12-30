@@ -3,7 +3,7 @@
 angular.module('eloquence.services', ['eloquence.utils'])
 
 .service('$APIService', function($http, $q, $ionicLoading, $ionicPopup){
-  var BACKEND_URL = window.cordova ?'https://mysterious-reaches-6529.herokuapp.com' : 'http://localhost:5000';
+  var BACKEND_URL = 'https://eloquence-node.herokuapp.com';
 
   function showNotConnectedAlert() {
     $ionicPopup.alert({
